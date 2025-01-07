@@ -1,5 +1,6 @@
 using campus_circle_api.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace campus_circle_api.Controllers;
 
@@ -7,9 +8,22 @@ namespace campus_circle_api.Controllers;
 [Route("search")]
 public class SearchController : ControllerBase
 {
-    [HttpPost(Name = "search")]
-    public ActionResult<IEnumerable<SearchResult>> Search(string q)
+    private readonly SqlDbContext _context;
+
+    public SearchController(SqlDbContext context)
     {
-        return new[] { new SearchResult("/home", "Home", "Info", "/channel") };
+        _context = context;
+    }
+
+    [HttpPost(Name = "search")]
+    public async Task<ActionResult<IEnumerable<SearchResult>>> Search(string q)
+    {
+        // match query with chat name and username
+        var chats = await _context.Chats
+            .Where(chat => chat.username.ToLower().Contains(q.ToLower()) || chat.name.ToLower().Contains(q.ToLower()))
+            .ToListAsync();
+
+        // convert found chats to search result object
+        return chats.ConvertAll(chat => new SearchResult("", chat.name, chat.username, ""));
     }
 }

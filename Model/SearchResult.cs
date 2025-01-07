@@ -10,11 +10,12 @@ public class SearchResult
         this.link = link;
     }
 
+    // reserved to show an image if any
     public string img { get; set; }
 
     public string title { get; set; }
 
     public string description { get; set; }
-    
+
     public string link { get; set; }
 }
