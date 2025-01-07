@@ -1,8 +1,16 @@
+using campus_circle_api;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<SqlDbContext>(opt =>
+    opt.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"))
+    // connection string can be found at appsettings.Development.json
+);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
