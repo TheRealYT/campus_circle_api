@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace campus_circle_api.Controllers;
 
 [ApiController]
-[Route("chat")]
 public class ChatController : ControllerBase
 {
     private readonly SqlDbContext _context;
@@ -16,17 +15,14 @@ public class ChatController : ControllerBase
         _context = context;
     }
 
-    [HttpPost(Name = "add")]
-    public async Task<IActionResult> AddChat(Chat chat)
+    [HttpPost]
+    [Route("chat/{chat_id}/messages")]
+    public async Task<ActionResult<IEnumerable<Message>>> GetGroupMessages(string chat_id)
     {
-        _context.Chats.Add(chat);
-        await _context.SaveChangesAsync();
-        return Ok(chat);
-    }
+        var chat = await _context.Chats.FirstOrDefaultAsync(c => c.chat_id == chat_id || c.username == chat_id);
+        if (chat == null)
+            return NotFound("Chat not found");
 
-    [HttpGet(Name = "get")]
-    public async Task<List<Chat>> GetChats()
-    {
-        return await _context.Chats.ToListAsync();
+        return Ok(await _context.Messages.Where(m => m.chat_id == chat!.chat_id).ToArrayAsync());
     }
 }
