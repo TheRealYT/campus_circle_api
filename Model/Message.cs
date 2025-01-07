@@ -19,14 +19,14 @@ public class Message
     [Column("chat_id")]
     public string chat_id { get; set; }
 
-    [JsonIgnore] public virtual Chat Chat { get; set; }
+    [JsonIgnore] public virtual Chat? Chat { get; set; }
 
     [JsonIgnore]
     [ForeignKey("User")]
     [Column("sender_id")]
     public string sender_id { get; set; } // set from session
 
-    [JsonIgnore] public virtual User User { get; set; }
+    [JsonIgnore] public virtual User? User { get; set; }
 
     [Column("text")] public string text { get; set; }
 
