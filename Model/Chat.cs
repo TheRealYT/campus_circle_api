@@ -14,7 +14,7 @@ public class Chat
 
     // constructor may be used by developer, to assign all values at once
     // will be removed if it is not necessary
-    public Chat(string chatId, string name, string username, string chatType, string description, DateTime date)
+    public Chat(string chatId, string name, string username, ChatType chatType, string description, DateTime date)
     {
         chat_id = chatId;
         this.name = name;
@@ -25,16 +25,22 @@ public class Chat
     }
 
     // ignore it from client request, we shall assign chat_id ourselves not the client (not chat creator admin)
-    [JsonIgnore] [Key] public string chat_id { get; set; }
+    [JsonIgnore] [Key] public string chat_id { get; set; } = "CHAT_001"; // TODO: auto-increment
 
     // column names goes here
     [Column("name")] public string name { get; set; }
 
     [Column("username")] public string username { get; set; }
 
-    [Column("chat_type")] public string chat_type { get; set; }
+    [Column("chat_type")] public ChatType chat_type { get; set; }
 
     [Column("description")] public string description { get; set; }
 
-    [Column("date")] public DateTime date { get; set; }
+    [JsonIgnore] [Column("date")] public DateTime date { get; set; } = DateTime.Now;
+}
+
+public enum ChatType
+{
+    Channel,
+    Group
 }
