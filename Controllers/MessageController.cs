@@ -36,4 +36,27 @@ public class MessageController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPost]
+    [Route("event/{message_id}/apply")]
+    public async Task<ActionResult> ApplyEvent([FromRoute] string message_id, [FromQuery] string user_id)
+    {
+        var user = await _context.Users.FindAsync(user_id);
+
+        if (user == null)
+            return NotFound("User not found");
+
+        var eventPost = await _context.Messages.FirstOrDefaultAsync(m => m.message_id == message_id);
+        if (eventPost is not { message_type: MessageType.Event })
+            return NotFound("Event not found");
+
+        if (await _context.Events.FirstOrDefaultAsync(j =>
+                j.participant_Id == user.user_id && j.event_post_id == eventPost.message_id) != null)
+            return BadRequest("You are already participating in this event");
+
+        await _context.Events.AddAsync(new Event(user_id, message_id));
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
 }
