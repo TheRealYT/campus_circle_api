@@ -21,7 +21,7 @@ public class Message
 
     [JsonIgnore] public virtual Chat? Chat { get; set; }
 
-    [JsonIgnore]
+    // [JsonIgnore]
     [ForeignKey("User")]
     [Column("sender_id")]
     public string sender_id { get; set; } // set from session
