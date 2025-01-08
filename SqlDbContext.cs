@@ -5,7 +5,8 @@ namespace campus_circle_api;
 
 public class SqlDbContext : DbContext
 {
-    // the class Chat has to define columns and tables
+    // these classes must define columns and tables
+    public DbSet<User> Users { get; set; }
     public DbSet<Chat> Chats { get; set; }
     public DbSet<Message> Messages { get; set; }
 
