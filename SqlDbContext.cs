@@ -14,7 +14,7 @@ public class SqlDbContext : DbContext
     {
         // TODO: remove me
         // delete all data to re-create it, otherwise new tables won't auto created
-        Database.EnsureDeleted();
+        // Database.EnsureDeleted();
 
         // ensures the table exists for the first time
         Database.EnsureCreated();
