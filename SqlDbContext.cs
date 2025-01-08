@@ -9,6 +9,8 @@ public class SqlDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Chat> Chats { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<JobApplication> JobApplications { get; set; }
+    public DbSet<Event> Events { get; set; }
 
     public SqlDbContext(DbContextOptions<SqlDbContext> options) : base(options)
     {
