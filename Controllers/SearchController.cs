@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace campus_circle_api.Controllers;
 
 [ApiController]
-[Route("search")]
 public class SearchController : ControllerBase
 {
     private readonly SqlDbContext _context;
@@ -15,7 +14,8 @@ public class SearchController : ControllerBase
         _context = context;
     }
 
-    [HttpPost(Name = "search")]
+    [HttpPost]
+    [Route("search")]
     public async Task<ActionResult<IEnumerable<SearchResult>>> Search(string q)
     {
         // match query with chat name and username

@@ -25,7 +25,7 @@ public class Chat
     }
 
     // ignore it from client request, we shall assign chat_id ourselves not the client (not chat creator admin)
-    [JsonIgnore] [Key] public string chat_id { get; set; } = "CHAT_001"; // TODO: auto-increment
+    [JsonIgnore] [Key] public string chat_id { get; set; } = Guid.NewGuid().ToString();
 
     // column names goes here
     [Column("name")] public string name { get; set; }

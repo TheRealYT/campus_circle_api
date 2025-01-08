@@ -13,7 +13,7 @@ public class Message
 
     [JsonIgnore]
     [Key] // primary key
-    public string message_id { get; set; }
+    public string message_id { get; set; } = Guid.NewGuid().ToString();
 
     [ForeignKey("Chat")]
     [Column("chat_id")]
@@ -21,7 +21,7 @@ public class Message
 
     [JsonIgnore] public virtual Chat? Chat { get; set; }
 
-    [JsonIgnore]
+    // [JsonIgnore]
     [ForeignKey("User")]
     [Column("sender_id")]
     public string sender_id { get; set; } // set from session
