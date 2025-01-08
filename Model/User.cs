@@ -11,7 +11,7 @@ public class User
     {
     }
 
-    [JsonIgnore] [Key] public string user_id { get; set; }
+    [JsonIgnore] [Key] public string user_id { get; set; } = Guid.NewGuid().ToString();
 
     [Column("f_name")] public string f_name { get; set; }
 
