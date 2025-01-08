@@ -1,3 +1,4 @@
+using campus_circle_api.Filter;
 using campus_circle_api.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,13 @@ public class ChatController : ControllerBase
         _context = context;
     }
 
+    // [AuthFilter] // attaches user_id context 
     [HttpPost]
     [Route("sendMessage")]
     public async Task<ActionResult> SendMessage([FromBody] Message message)
     {
+        // retrieve context
+        // string user_id = HttpContext.Items["user_id"].ToString();
         await _context.Messages.AddAsync(message);
         await _context.SaveChangesAsync();
         return Ok();
